@@ -1,0 +1,988 @@
+/* ═══════════════════════════════════════════════════════════════
+   template-petcare-002 — Villa Pata Boutique Pet — style.css
+   petcare boutique premium · DM Serif Display + Nunito Sans · pt-BR
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Design tokens — hex fallback ────────────────────────── */
+:root {
+  --color-primary: #B89B7D;
+  --color-accent:  #6B8E7F;
+  --color-ink:     #2D2620;
+  --color-bg:      #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-muted:   #8A8078;
+  --color-footer:  #2D2620;
+  --scroll-bg:     #FFFFFF;
+}
+
+/* ── 2. Design tokens — pipeline overrides (last-wins) ──────── */
+:root {
+  --color-primary: #B89B7D;
+  --color-accent:  #6B8E7F;
+  --color-ink:     #2C2417;
+  --color-bg:      #FDFAF6;
+  --color-surface: #F4EDE3;
+  --color-muted:   #8C7B6B;
+  --color-footer:  #2C2417;
+}
+
+/* ── 3. Animation constants ─────────────────────────────────── */
+:root {
+  --anim-duration:   0.9s;
+  --anim-easing:     cubic-bezier(.22, 1, .36, 1);
+  --anim-translateY: 28px;
+  --anim-stagger:    180ms;
+}
+
+/* ── 4. Typography ──────────────────────────────────────────── */
+:root {
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'Nunito Sans', system-ui, sans-serif;
+}
+
+/* ── 5. Spacing tokens ──────────────────────────────────────── */
+:root {
+  --section-py-tight: clamp(40px, 5vh, 64px);
+  --section-py-base:  clamp(72px, 9vh, 120px);
+  --section-py-large: clamp(96px, 12vh, 152px);
+}
+
+/* ── 6. Base reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+img     { display: block; max-width: 100%; height: auto; }
+a       { color: inherit; text-decoration: none; }
+ul      { list-style: none; }
+address { font-style: normal; }
+
+/* ── 7. Utilities ───────────────────────────────────────────── */
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.eyebrow {
+  display: block;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.section-header { margin-bottom: 56px; }
+.section-header h2 { margin-top: 12px; }
+
+.section-lede {
+  margin-top: 16px;
+  max-width: 560px;
+  color: var(--color-muted);
+  font-size: 16px;
+}
+.section-header--center { text-align: center; }
+.section-header--center .section-lede { margin-left: auto; margin-right: auto; }
+
+/* ── 8. Image fallback wrapper ──────────────────────────────── */
+.img-fallback {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-bg));
+}
+.img-svg-fallback {
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 4/3;
+  color: var(--color-muted);
+}
+
+/* ── 9. Fade Up ─────────────────────────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(var(--anim-translateY));
+  transition:
+    opacity   var(--anim-duration) var(--anim-easing),
+    transform var(--anim-duration) var(--anim-easing);
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up--1 { transition-delay: calc(var(--anim-stagger) * 1); }
+.fade-up--2 { transition-delay: calc(var(--anim-stagger) * 2); }
+.fade-up--3 { transition-delay: calc(var(--anim-stagger) * 3); }
+.fade-up--4 { transition-delay: calc(var(--anim-stagger) * 4); }
+
+/* ── 10. Stagger Cards ──────────────────────────────────────── */
+.stagger-card {
+  opacity: 0;
+  transform: translateY(var(--anim-translateY));
+  transition:
+    opacity   var(--anim-duration) var(--anim-easing),
+    transform var(--anim-duration) var(--anim-easing);
+}
+.stagger-card.visible { opacity: 1; transform: translateY(0); }
+
+/* ── 11. Fill Slide CTA ─────────────────────────────────────── */
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 32px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 100px;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.5s var(--anim-easing);
+  outline-offset: 3px;
+}
+.cta-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  border-radius: inherit;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--anim-easing);
+}
+.cta-primary:hover { color: var(--color-primary); }
+.cta-primary:hover::before { transform: scaleX(1); }
+.cta-primary:focus-visible { outline: 2px solid var(--color-primary); }
+.cta-primary > * { position: relative; }
+.cta-primary--large { padding: 18px 40px; font-size: 16px; }
+
+.cta-primary--accent {
+  background: var(--color-accent);
+}
+.cta-primary--accent:hover { color: var(--color-accent); }
+
+/* ── 12. Underline Morph ────────────────────────────────────── */
+.link-underline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+  position: relative;
+  padding-bottom: 2px;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1.5px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--anim-easing);
+}
+.link-underline:hover::after { transform: scaleX(1); }
+.link-underline:hover { color: var(--color-primary); }
+
+.btn-icon { display: inline-flex; align-items: center; flex-shrink: 0; }
+.btn-icon svg { width: 18px; height: 18px; }
+
+/* ── 13. NAVBAR ─────────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: transparent;
+  transition: background 400ms ease, box-shadow 400ms ease;
+}
+.navbar.scrolled {
+  background: rgba(250, 250, 250, 0.96);
+  box-shadow: 0 1px 0 rgba(45, 38, 32, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  height: 72px;
+}
+.nav-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex-shrink: 0;
+  line-height: 1.1;
+}
+.nav-logo-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 19px;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+.nav-logo-sub {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+  margin-left: auto;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  opacity: 0.65;
+  transition: opacity 240ms;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1.5px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--anim-easing);
+}
+.nav-links a:hover,
+.nav-links a.nav-active { opacity: 1; }
+.nav-links a.nav-active::after,
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-cta {
+  flex-shrink: 0;
+  padding: 10px 22px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 100px;
+  transition: background 240ms;
+}
+.nav-cta:hover { background: var(--color-ink); }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px; height: 36px;
+  border: none; background: none;
+  cursor: pointer; padding: 4px;
+  margin-left: auto;
+}
+.nav-toggle span {
+  display: block;
+  height: 1.5px;
+  background: var(--color-ink);
+  transition: transform 300ms, opacity 300ms;
+}
+
+/* ── 14. PAGE HERO (index) ──────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  padding-top: 72px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  min-height: calc(100vh - 72px);
+  align-items: center;
+  gap: 0;
+  padding: 80px 0;
+}
+.hero-text {
+  padding-right: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(48px, 6.5vw, 80px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.hero-sub {
+  font-size: 17px;
+  color: var(--color-muted);
+  max-width: 440px;
+  line-height: 1.7;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.hero-note {
+  font-size: 12px;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+  border-top: 1px solid rgba(45, 38, 32, 0.1);
+  padding-top: 16px;
+}
+.hero-visual {
+  position: absolute;
+  right: 0; top: 72px; bottom: 0;
+  width: calc(480px + 40px);
+}
+.hero-img-wrap {
+  width: 100%; height: 100%;
+  border-radius: 0 0 0 28px;
+  overflow: hidden;
+}
+.hero-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ── 15. HERO SECONDARIO (pagine interne) ───────────────────── */
+.page-hero {
+  padding: clamp(96px, 12vh, 140px) 0 var(--section-py-tight);
+  background: var(--color-surface);
+  border-bottom: 1px solid rgba(45, 38, 32, 0.07);
+}
+.page-hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 64px;
+  align-items: center;
+}
+.page-hero-text { display: flex; flex-direction: column; gap: 16px; }
+.page-hero-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.page-hero-sub {
+  font-size: 16px;
+  color: var(--color-muted);
+  max-width: 400px;
+  line-height: 1.7;
+}
+.page-hero-img-wrap {
+  aspect-ratio: 4/3;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.page-hero-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ── 16. BRAND STORY (about) ────────────────────────────────── */
+.about {
+  padding: var(--section-py-base) 0;
+  background: var(--color-surface);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 80px;
+  align-items: center;
+}
+.about-text { display: flex; flex-direction: column; gap: 24px; }
+.about-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+.about-body {
+  color: var(--color-muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+.about-img-wrap {
+  aspect-ratio: 3/4;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.about-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ── 17. SCROLL ANIMATION ───────────────────────────────────── */
+.scroll-animation {
+  position: relative;
+  height: 300vh;
+  background: var(--scroll-bg);
+}
+.scroll-anim-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#scroll-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.scroll-anim-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 10vh;
+  pointer-events: none;
+  z-index: 2;
+}
+.scroll-headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 52px);
+  color: var(--color-ink);
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+.scroll-subline {
+  font-size: 16px;
+  color: var(--color-muted);
+  text-align: center;
+  max-width: 520px;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ── 18. SERVICOS OVERVIEW ──────────────────────────────────── */
+.services-overview {
+  padding: var(--section-py-base) 0;
+  background: var(--color-bg);
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.service-card {
+  background: var(--color-surface);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 300ms var(--anim-easing), transform 300ms var(--anim-easing);
+}
+.service-card:hover {
+  box-shadow: 0 16px 48px rgba(45, 38, 32, 0.10);
+  transform: translateY(-4px);
+}
+.service-img-wrap {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.service-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--anim-easing);
+}
+.service-card:hover .service-img-wrap img { transform: scale(1.04); }
+.service-info {
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.service-icon-wrap {
+  color: var(--color-primary);
+  display: flex;
+}
+.service-icon-wrap svg { width: 32px; height: 32px; }
+.service-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.service-desc { font-size: 14px; color: var(--color-muted); line-height: 1.65; flex: 1; }
+.service-price { font-weight: 700; font-size: 13px; color: var(--color-primary); letter-spacing: 0.04em; }
+.service-link-wrap { margin-top: 4px; }
+
+/* ── 19. GALERIA ANTES & DEPOIS ─────────────────────────────── */
+.gallery {
+  padding: var(--section-py-base) 0;
+  background: var(--color-surface);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.gallery-pair { display: flex; flex-direction: column; gap: 8px; }
+.gallery-pair-imgs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.gallery-pair-imgs .img-fallback { aspect-ratio: 1; }
+.gallery-pair-imgs img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-align: center;
+}
+.gallery-pair-caption {
+  font-size: 13px;
+  color: var(--color-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+.gallery-before-label { color: var(--color-muted); }
+.gallery-after-label  { color: var(--color-accent); }
+
+/* ── 20. NOSSOS HÓSPEDES ────────────────────────────────────── */
+.hospedes {
+  padding: var(--section-py-base) 0;
+  background: var(--color-bg);
+}
+.hospedes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.hospede-card {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.hospede-img-wrap {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+.hospede-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 500ms var(--anim-easing);
+}
+.hospede-card:hover .hospede-img-wrap img { transform: scale(1.06); }
+.hospede-info {
+  padding: 12px 10px 8px;
+  background: var(--color-surface);
+}
+.hospede-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.hospede-breed {
+  font-size: 11px;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── 21. EQUIPE ─────────────────────────────────────────────── */
+.equipe {
+  padding: var(--section-py-base) 0;
+  background: var(--color-surface);
+}
+.equipe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.team-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.team-img-wrap {
+  aspect-ratio: 3/4;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.team-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.team-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+.team-role {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-top: -8px;
+}
+.team-bio { font-size: 14px; color: var(--color-muted); line-height: 1.65; }
+
+/* ── 22. HORÁRIOS + LOCALIZAÇÃO (ESTÁTICO) ──────────────────── */
+.localizacao {
+  padding: var(--section-py-base) 0;
+  background: var(--color-bg);
+}
+.localizacao-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+.loc-info { display: flex; flex-direction: column; gap: 36px; }
+.loc-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  line-height: 1.1;
+}
+.loc-details { display: flex; flex-direction: column; gap: 20px; }
+.loc-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: var(--color-ink);
+}
+.loc-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  display: inline-flex;
+  margin-top: 2px;
+}
+.loc-icon svg { width: 20px; height: 20px; }
+.hours-list { display: flex; flex-direction: column; gap: 6px; }
+.hour-row {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+}
+.hour-day { min-width: 120px; color: var(--color-muted); font-weight: 400; }
+.hour-time { color: var(--color-ink); font-weight: 600; }
+.loc-map {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg));
+}
+.loc-map img { width: 100%; height: 100%; object-fit: cover; }
+.map-placeholder {
+  width: 100%; height: 100%;
+  min-height: 300px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 12px; color: var(--color-muted);
+  font-size: 14px; text-align: center; padding: 40px;
+}
+.map-placeholder svg { width: 40px; height: 40px; color: var(--color-primary); }
+
+/* ── 23. CTA FINALE ─────────────────────────────────────────── */
+.cta-final {
+  padding: var(--section-py-large) 0;
+  background: var(--color-primary);
+  text-align: center;
+}
+.cta-final-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.cta-final-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4.5vw, 56px);
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  max-width: 680px;
+}
+.cta-final-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  max-width: 440px;
+}
+.cta-final .cta-primary {
+  background: #fff;
+  color: var(--color-primary);
+}
+.cta-final .cta-primary:hover { color: var(--color-ink); }
+
+/* ── 24. FOOTER (STATICO) ───────────────────────────────────── */
+.footer {
+  background: var(--color-footer);
+  color: rgba(250, 250, 250, 0.7);
+  padding: 72px 0 0;
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 56px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid rgba(250,250,250,0.08);
+}
+.footer-brand { display: flex; flex-direction: column; gap: 12px; }
+.footer-logo-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 22px;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.footer-tagline {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: rgba(250,250,250,0.4);
+}
+.footer-social { display: flex; gap: 10px; margin-top: 8px; }
+.footer-social-link {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(250,250,250,0.15);
+  color: rgba(250,250,250,0.6);
+  transition: border-color 240ms, color 240ms;
+}
+.footer-social-link:hover { border-color: var(--color-primary); color: #fff; }
+.footer-social-link svg { width: 18px; height: 18px; }
+.footer-nav ul { display: flex; flex-direction: column; gap: 10px; }
+.footer-nav a {
+  font-size: 14px;
+  color: rgba(250,250,250,0.55);
+  transition: color 240ms;
+}
+.footer-nav a:hover { color: #fff; }
+.footer-address {
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(250,250,250,0.55);
+}
+.footer-address p { margin-bottom: 4px; }
+.footer-bottom {
+  padding: 20px 0;
+}
+.footer-bottom-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(250,250,250,0.3);
+}
+
+/* ── 25. TABELAS SERVIÇOS / PREÇOS ──────────────────────────── */
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.price-table th {
+  padding: 14px 20px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  border-bottom: 1px solid rgba(45,38,32,0.1);
+}
+.price-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(45,38,32,0.06);
+  color: var(--color-ink);
+  vertical-align: middle;
+}
+.price-table tr:last-child td { border-bottom: none; }
+.price-table tr:hover td { background: color-mix(in srgb, var(--color-primary) 4%, var(--color-bg)); }
+.price-size { font-weight: 700; }
+.price-value { font-weight: 700; color: var(--color-primary); }
+
+/* ── 26. SHOP (loja) ────────────────────────────────────────── */
+.shop-categories {
+  padding: var(--section-py-base) 0;
+  background: var(--color-bg);
+}
+.shop-cats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.shop-cat-card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 300ms;
+}
+.shop-cat-card:hover { box-shadow: 0 8px 32px rgba(45,38,32,0.09); }
+.shop-cat-img-wrap { aspect-ratio: 1; overflow: hidden; }
+.shop-cat-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms var(--anim-easing); }
+.shop-cat-card:hover .shop-cat-img-wrap img { transform: scale(1.04); }
+.shop-cat-info { padding: 16px; }
+.shop-cat-name { font-family: var(--font-display); font-weight: 400; font-size: 18px; color: var(--color-ink); }
+.shop-cat-desc { font-size: 13px; color: var(--color-muted); margin-top: 6px; line-height: 1.55; }
+
+.shop-featured {
+  padding: var(--section-py-base) 0;
+  background: var(--color-surface);
+}
+.shop-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.product-card {
+  background: var(--color-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.product-img-wrap { aspect-ratio: 1; overflow: hidden; }
+.product-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.product-info { padding: 16px; }
+.product-name { font-weight: 700; font-size: 15px; color: var(--color-ink); line-height: 1.3; }
+.product-brand { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); margin-top: 4px; }
+.product-price { font-weight: 700; font-size: 15px; color: var(--color-primary); margin-top: 8px; }
+
+/* ── 27. HOTEL PET ──────────────────────────────────────────── */
+.hotel-desc {
+  padding: var(--section-py-base) 0;
+  background: var(--color-bg);
+}
+.hotel-desc-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 72px;
+  align-items: center;
+}
+.hotel-desc-text { display: flex; flex-direction: column; gap: 20px; }
+.hotel-desc-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  line-height: 1.1;
+}
+.hotel-desc-body { font-size: 16px; color: var(--color-muted); line-height: 1.8; }
+.hotel-includes { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+.hotel-include-item {
+  display: flex; gap: 10px; align-items: center;
+  font-size: 15px; color: var(--color-ink);
+}
+.hotel-check { color: var(--color-accent); display: inline-flex; flex-shrink: 0; }
+.hotel-check svg { width: 20px; height: 20px; }
+.hotel-img-wrap { aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; }
+.hotel-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── 28. Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .stagger-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .cta-primary::before { transition: none; }
+  .link-underline::after { transition: none; }
+  .nav-links a::after { transition: none; }
+  .service-card,
+  .hospede-img-wrap img,
+  .service-img-wrap img,
+  .shop-cat-img-wrap img,
+  .product-img-wrap img { transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ── 29. Tablet ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr 360px; }
+  .hero-visual { width: calc(360px + 40px); }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .hospedes-grid { grid-template-columns: repeat(3, 1fr); }
+  .equipe-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-cats-grid,
+  .shop-products-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .hotel-desc-grid { grid-template-columns: 1fr; gap: 48px; }
+  .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ── 30. Mobile ─────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .container { padding: 0 20px; }
+
+  /* Navbar */
+  .nav-links, .nav-cta { display: none; }
+  .nav-toggle { display: flex; }
+  body.nav-open .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 72px; left: 0; right: 0;
+    background: rgba(250,250,250,0.98);
+    padding: 28px 20px 40px;
+    gap: 20px;
+    z-index: 99;
+    box-shadow: 0 8px 24px rgba(45,38,32,0.10);
+  }
+  body.nav-open .nav-links a { font-size: 17px; opacity: 1; }
+
+  /* Hero */
+  .hero-grid { grid-template-columns: 1fr; padding: 40px 0; gap: 36px; min-height: auto; }
+  .hero-visual { position: relative; right: auto; top: auto; bottom: auto; width: 100%; height: 300px; order: -1; }
+  .hero-img-wrap { border-radius: 0 0 16px 16px; }
+  .hero-text { padding-right: 0; }
+
+  /* Scroll */
+  .scroll-animation { height: 200vh; }
+
+  /* Grids */
+  .services-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .hospedes-grid { grid-template-columns: repeat(2, 1fr); }
+  .equipe-grid { grid-template-columns: 1fr; }
+  .shop-cats-grid,
+  .shop-products-grid { grid-template-columns: repeat(2, 1fr); }
+  .localizacao-grid { grid-template-columns: 1fr; gap: 40px; }
+
+  /* Footer */
+  .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+  .footer-bottom-inner { flex-direction: column; gap: 8px; text-align: center; }
+}
